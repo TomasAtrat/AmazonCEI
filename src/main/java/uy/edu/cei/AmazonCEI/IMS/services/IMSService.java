@@ -1,5 +1,6 @@
 package uy.edu.cei.AmazonCEI.IMS.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,11 @@ import java.util.UUID;
 @Service
 public class IMSService {
     private IMSMapper imsMapper;
+
+    @Autowired
+    public IMSService(final IMSMapper imsMapper) {
+        this.imsMapper= imsMapper;
+    }
 
     public List<Item> getElements(){
         return this.imsMapper.getElements();

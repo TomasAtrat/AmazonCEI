@@ -15,5 +15,5 @@ public class Item {
     private Long id;
     private UUID uuid;
     private Integer stock;
-    private String nombre;
+    private String name;
 }

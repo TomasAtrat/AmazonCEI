@@ -1,6 +1,7 @@
 package uy.edu.cei.AmazonCEI.IMS.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uy.edu.cei.AmazonCEI.IMS.services.IMSService;
 import uy.edu.cei.AmazonCEI.common.models.Item;
@@ -11,10 +12,15 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/ims")
-@AllArgsConstructor
-public class IMSController {
-    private final IMSService imsService;
 
+public class IMSController {
+
+    @Autowired
+    public IMSController(final IMSService imsService) {
+        this.imsService= imsService;
+    }
+
+    private final IMSService imsService;
     @GetMapping("/")
     public List<Item> getElements(){
         return this.imsService.getElements();
