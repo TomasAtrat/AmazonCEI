@@ -30,4 +30,7 @@ public class IMSService {
          this.imsMapper.update(currentItem);
     }
 
+    public Item getElementByUUID(UUID item_uuid) {
+        return this.imsMapper.getElementByUUID(item_uuid);
+    }
 }

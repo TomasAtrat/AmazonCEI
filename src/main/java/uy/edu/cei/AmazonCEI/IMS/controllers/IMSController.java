@@ -1,6 +1,8 @@
 package uy.edu.cei.AmazonCEI.IMS.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uy.edu.cei.AmazonCEI.IMS.services.IMSService;
@@ -21,15 +23,21 @@ public class IMSController {
     }
 
     private final IMSService imsService;
+
     @GetMapping("/")
     public List<Item> getElements(){
         return this.imsService.getElements();
     }
 
-    @PutMapping("/{item_uuid}, {amount} ")
+    @GetMapping("/{uuid}")
+    public Item getElementById(@Param("uuid") final UUID item_uuid){
+        return this.imsService.getElementByUUID(item_uuid);
+    }
+
+    @PutMapping("/{uuid}")
     public void update(
-            @PathVariable("item_uuid") final UUID item_uuid,
-            @PathVariable("amount") final Integer amount){
+            @PathVariable("uuid") final UUID item_uuid,
+            @RequestBody final Integer amount){
         this.imsService.update(item_uuid, amount);
     }
 }
