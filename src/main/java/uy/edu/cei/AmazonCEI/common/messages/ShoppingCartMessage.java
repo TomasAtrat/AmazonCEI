@@ -18,5 +18,5 @@ public class ShoppingCartMessage {
     private Action action;
     private String userUUID;
     private Item item;
-
+    private String shoppingCart_uuid;
 }
