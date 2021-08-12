@@ -11,10 +11,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Item {
+public class Checkout {
     private Long id;
     private UUID uuid;
-    private Integer stock;
-    private String name;
-    private Float cost;
+    private UUID shopping_cart_uuid;
+    private Float total_cost;
 }

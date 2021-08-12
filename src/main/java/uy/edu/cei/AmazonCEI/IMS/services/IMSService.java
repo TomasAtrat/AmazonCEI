@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import uy.edu.cei.AmazonCEI.IMS.mappers.IMSMapper;
 import uy.edu.cei.AmazonCEI.common.models.Item;
+import uy.edu.cei.AmazonCEI.common.models.ItemInShoppingCart;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,14 +24,21 @@ public class IMSService {
         return this.imsMapper.getElements();
     }
 
-    public void update(UUID item_uuid, Integer amount) {
+    public void update(UUID item_uuid, ItemInShoppingCart itemInShoppingCart) {
         final Item currentItem= this.imsMapper.getElementByUUID(item_uuid);
-        if(currentItem.getUuid() != null)
-            currentItem.setStock(currentItem.getStock()-amount);
+        if(currentItem.getUuid() != null && itemInShoppingCart.getAmount()!=null)
+            currentItem.setStock(currentItem.getStock()-itemInShoppingCart.getAmount());
          this.imsMapper.update(currentItem);
     }
 
     public Item getElementByUUID(UUID item_uuid) {
         return this.imsMapper.getElementByUUID(item_uuid);
+    }
+
+    public void update(ItemInShoppingCart item) {
+        final Item currentItem= this.imsMapper.getElementByUUID(item.getItem_uuid());
+        if(currentItem.getUuid() != null && item.getAmount()!=null)
+            currentItem.setStock(currentItem.getStock()-item.getAmount());
+        this.imsMapper.update(currentItem);
     }
 }

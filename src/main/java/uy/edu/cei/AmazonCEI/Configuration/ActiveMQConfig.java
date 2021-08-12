@@ -13,7 +13,8 @@ import org.springframework.jms.support.converter.MessageType;
 @EnableJms
 public class ActiveMQConfig {
     public static final String SHOPPING_CART_QUEUE = "shopping-cart-queue";
-    public static final String CHECKOUT_QUEUE= "checkout-queue";
+    public static final String CHECKOUT_QUEUE_FOR_NOTIFICATION= "checkout-queue-for-notification";
+    public static final String CHECKOUT_QUEUE_FOR_UPDATE= "checkout-queue-for-update";
 
     @Bean
     public JmsListenerContainerFactory<?> queueListenerFactory() {
