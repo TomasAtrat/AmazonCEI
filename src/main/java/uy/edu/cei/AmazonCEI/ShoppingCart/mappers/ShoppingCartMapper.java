@@ -1,9 +1,6 @@
 package uy.edu.cei.AmazonCEI.ShoppingCart.mappers;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import uy.edu.cei.AmazonCEI.common.models.Item;
 import uy.edu.cei.AmazonCEI.common.models.ShoppingCart;
 
@@ -24,4 +21,11 @@ public interface ShoppingCartMapper {
    @Insert("INSERT INTO shopping_cart values (#{newCar.uuid},#{newCar.ActiveStatus}," +
                                              "#{newCar.user_uuid})")
    void create(ShoppingCart newCar);
+
+
+   // @Update()
+   // public void close(UUID)
+
+   //@Delete()
+   //public void removeFromCart(UUID,item)
 }
