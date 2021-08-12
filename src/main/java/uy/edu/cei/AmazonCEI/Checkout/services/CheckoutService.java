@@ -17,9 +17,9 @@ import java.util.UUID;
 
 @Service
 public class CheckoutService {
-    private CheckoutMapper checkoutMapper;
-    private CheckoutSender checkoutSender;
-    private IMSClient imsClient;
+    private final CheckoutMapper checkoutMapper;
+    private final CheckoutSender checkoutSender;
+    private final IMSClient imsClient;
     private List<Item> colItems;
     @Autowired
     public CheckoutService(CheckoutMapper checkoutMapper, CheckoutSender checkoutSender, IMSClient imsClient) {
