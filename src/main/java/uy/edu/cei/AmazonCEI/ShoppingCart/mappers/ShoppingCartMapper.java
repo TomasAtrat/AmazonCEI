@@ -1,7 +1,10 @@
 package uy.edu.cei.AmazonCEI.ShoppingCart.mappers;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import uy.edu.cei.AmazonCEI.common.models.Item;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,6 +15,8 @@ public interface ShoppingCartMapper {
    @Select("Select Item_id from shopping_cart")
    List<UUID> extracUUID();
 
-
+   @Insert("Insert into shopping_cart values(#{user},#{item.uuid},1)")
+   public void addItemToCart(@Param("user") final UUID userUUID,
+                             @Param("item") final Item item);
 
 }
