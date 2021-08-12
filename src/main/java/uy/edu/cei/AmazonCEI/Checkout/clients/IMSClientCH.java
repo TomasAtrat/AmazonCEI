@@ -7,10 +7,10 @@ import uy.edu.cei.AmazonCEI.common.models.Item;
 import java.util.UUID;
 
 @Component
-public class IMSClient {
+public class IMSClientCH {
     private final RestTemplate restTemplate;
 
-    public IMSClient() {
+    public IMSClientCH() {
         this.restTemplate = new RestTemplate();
     }
 

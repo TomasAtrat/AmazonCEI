@@ -2,7 +2,7 @@ package uy.edu.cei.AmazonCEI.Checkout.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uy.edu.cei.AmazonCEI.Checkout.clients.IMSClient;
+import uy.edu.cei.AmazonCEI.Checkout.clients.IMSClientCH;
 import uy.edu.cei.AmazonCEI.Checkout.components.CheckoutSender;
 import uy.edu.cei.AmazonCEI.Checkout.mappers.CheckoutMapper;
 import uy.edu.cei.AmazonCEI.common.messages.CheckoutAction;
@@ -19,13 +19,13 @@ import java.util.UUID;
 public class CheckoutService {
     private final CheckoutMapper checkoutMapper;
     private final CheckoutSender checkoutSender;
-    private final IMSClient imsClient;
+    private final IMSClientCH imsClientCH;
     private List<Item> colItems;
     @Autowired
-    public CheckoutService(CheckoutMapper checkoutMapper, CheckoutSender checkoutSender, IMSClient imsClient) {
+    public CheckoutService(CheckoutMapper checkoutMapper, CheckoutSender checkoutSender, IMSClientCH imsClientCH) {
         this.checkoutMapper = checkoutMapper;
         this.checkoutSender = checkoutSender;
-        this.imsClient = imsClient;
+        this.imsClientCH = imsClientCH;
         this.colItems= new ArrayList<>();
     }
 
@@ -62,7 +62,7 @@ public class CheckoutService {
         //Calcula precio final y envía mensajes de actualización a la cola simultáneamente
         float total=0;
         for (ItemInShoppingCart item: colItems) {
-            final Item it= this.imsClient.fetchItem(item.getItem_uuid());
+            final Item it= this.imsClientCH.fetchItem(item.getItem_uuid());
             total+= it.getCost()*item.getAmount();
             this.colItems.add(it);
             this.updateStock(checkout, item);

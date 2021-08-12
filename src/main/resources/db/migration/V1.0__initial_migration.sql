@@ -9,7 +9,7 @@ create table item(
 
 create unique index UK_uuid on item(uuid);
 
-insert into item(uuid, stock, name) values (NEWID(), 100, 'item test 1', 200), (NEWID(), 50, 'item test 2', 100);
+insert into item(uuid, stock, name, cost) values (NEWID(), 100, 'item test 1', 200), (NEWID(), 50, 'item test 2', 100);
 
 create table shoppingCart(
     id bigint not null identity(1,1),
