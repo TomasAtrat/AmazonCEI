@@ -14,10 +14,10 @@ public interface ShoppingCartMapper {
 
 
    @Select("Select Item_id from shopping_cart")
-   List<UUID> extracUUID();
+   List<String> extracUUID();
 
    @Insert("Insert into shopping_cart values(#{user},#{item.uuid},1)")
-   public void addItemToCart(@Param("user") final UUID userUUID,
+   public void addItemToCart(@Param("user") final String userUUID,
                              @Param("item") final Item item);
 
 

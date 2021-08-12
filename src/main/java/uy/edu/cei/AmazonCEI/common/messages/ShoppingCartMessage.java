@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 public class ShoppingCartMessage {
     private Action action;
-    private UUID userUUID;
+    private String userUUID;
     private Item item;
 
 }

@@ -16,7 +16,7 @@ public class CheckoutController {
     private CheckoutService checkoutService;
 
     @PostMapping("/{shopping_cart_uuid}")
-    public void checkout(@PathVariable("shopping_cart_uuid") final UUID shopping_cart_uuid){
+    public void checkout(@PathVariable("shopping_cart_uuid") final String shopping_cart_uuid){
         this.checkoutService.checkout(shopping_cart_uuid);
     }
 }

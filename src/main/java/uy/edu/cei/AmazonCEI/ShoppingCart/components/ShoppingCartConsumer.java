@@ -25,7 +25,7 @@ public class ShoppingCartConsumer {
     public void receiveMessage(@Payload ShoppingCartMessage payload) {
         log.info("shopping cart action: {}", payload);
         Item item = payload.getItem();
-        UUID userUUID = payload.getUserUUID();
+        String userUUID = payload.getUserUUID();
         if (payload.getAction() == Action.ADD_ITEM_TO_CART) {
             shoppingCatMapper.addItemToCart(userUUID, item);
         }

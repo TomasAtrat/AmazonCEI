@@ -22,11 +22,11 @@ public class ShoppingCartController {
 
     @GetMapping("/{idCarrito}")
     public List<Item>listShowItem() {
-        final List<UUID> ItemsUUID = this.ShoppingCartMapper.extracUUID();
+        final List<String> ItemsUUID = this.ShoppingCartMapper.extracUUID();
 
         final List<Item>ColItem = new ArrayList<>();
 
-        for(UUID uuid:ItemsUUID) {
+        for(String uuid:ItemsUUID) {
             final Item i = this.Client.fetchItem(uuid);
             ColItem.add(i);
         }
@@ -34,9 +34,9 @@ public class ShoppingCartController {
         }
 
         @PostMapping("/{uuidUser}")
-    public void createMensagge(@PathVariable("uuidUser") UUID uuidUser)
+    public void createMensagge(@PathVariable("uuidUser") String uuidUser)
         {
-            UUID uuid = java.util.UUID.randomUUID();
+            String uuid = java.util.UUID.randomUUID().toString();
             ShoppingCart newCar= new ShoppingCart().builder()
             .uuid(uuid)
             .ActiveStatus(true)

@@ -33,13 +33,13 @@ public class IMSController {
     }
 
     @GetMapping("/{uuid}")
-    public Item getElementById(@PathVariable("uuid") final UUID item_uuid){
+    public Item getElementById(@PathVariable("uuid") final String item_uuid){
         return this.imsService.getElementByUUID(item_uuid);
     }
 
     @PutMapping("/{uuid}")
     public void update(
-            @PathVariable("uuid") final UUID item_uuid,
+            @PathVariable("uuid") final String item_uuid,
             @RequestBody final ItemInShoppingCart itemInShoppingCart){
         this.imsService.update(item_uuid, itemInShoppingCart);
     }

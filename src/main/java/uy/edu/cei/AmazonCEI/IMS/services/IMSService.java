@@ -24,14 +24,14 @@ public class IMSService {
         return this.imsMapper.getElements();
     }
 
-    public void update(UUID item_uuid, ItemInShoppingCart itemInShoppingCart) {
+    public void update(String item_uuid, ItemInShoppingCart itemInShoppingCart) {
         final Item currentItem= this.imsMapper.getElementByUUID(item_uuid);
         if(currentItem.getUuid() != null && itemInShoppingCart.getAmount()!=null)
             currentItem.setStock(currentItem.getStock()-itemInShoppingCart.getAmount());
          this.imsMapper.update(currentItem);
     }
 
-    public Item getElementByUUID(UUID item_uuid) {
+    public Item getElementByUUID(String item_uuid) {
         return this.imsMapper.getElementByUUID(item_uuid);
     }
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 public class Item {
     private Long id;
-    private UUID uuid;
+    private String uuid;
     private Integer stock;
     private String name;
     private Float cost;

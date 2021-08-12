@@ -14,6 +14,6 @@ import java.util.UUID;
 
 public class ItemInShoppingCart {
     private Long idShoppingCart;
-    private UUID item_uuid;
+    private String item_uuid;
     private Integer amount;
 }

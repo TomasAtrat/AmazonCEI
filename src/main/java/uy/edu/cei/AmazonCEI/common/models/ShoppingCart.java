@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 public class ShoppingCart {
     private Long id;
-    private UUID uuid;
+    private String uuid;
     private boolean ActiveStatus;
-    private UUID user_uuid;
+    private String user_uuid;
 }

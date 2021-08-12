@@ -17,9 +17,9 @@ import java.util.UUID;
 @Builder
 public class CheckoutMessage {
     private CheckoutAction action;
-    private UUID checkout_uuid;
+    private String checkout_uuid;
     private ShoppingCart shoppingCart;
-    private UUID shoppingCartUUID;
+    private String shoppingCartUUID;
     private ItemInShoppingCart itemInShoppingCart;
     private List<Item> colItems;
 }

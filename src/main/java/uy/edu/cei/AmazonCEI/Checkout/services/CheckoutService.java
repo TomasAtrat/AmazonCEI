@@ -29,7 +29,7 @@ public class CheckoutService {
         this.colItems= new ArrayList<>();
     }
 
-    public void checkout(UUID shopping_cart_uuid){
+    public void checkout(String shopping_cart_uuid){
         //Obtener lista de items en carrito a partir de la obtención del carrito con un cliente web
         List<ItemInShoppingCart> itemsInCart= new ArrayList<>();
         Checkout chout= this.add(shopping_cart_uuid, itemsInCart); //calcula precio total y envía mensajes de actualización de stock
@@ -38,10 +38,10 @@ public class CheckoutService {
         sendNotification(this.colItems, chout.getUuid());
     }
 
-    public Checkout add(UUID shopping_cart_uuid, List<ItemInShoppingCart> itemsInCart){
+    public Checkout add(String shopping_cart_uuid, List<ItemInShoppingCart> itemsInCart){
         Checkout checkout= new Checkout();
         checkout.setShopping_cart_uuid(shopping_cart_uuid);
-        checkout.setUuid(UUID.randomUUID());
+        checkout.setUuid(UUID.randomUUID().toString());
         checkout.setTotal_cost(this.totalCost(checkout, itemsInCart));
         this.checkoutMapper.add(checkout);
         return checkout;
@@ -70,7 +70,7 @@ public class CheckoutService {
         return total;
     }
 
-    public void closeShoppingCart(UUID shoppingCart_uuid){
+    public void closeShoppingCart(String shoppingCart_uuid){
         final CheckoutMessage message = CheckoutMessage.builder()
                 .action(CheckoutAction.CLOSE_SHOPPING_CART)
                 .shoppingCartUUID(shoppingCart_uuid)
@@ -79,7 +79,7 @@ public class CheckoutService {
         checkoutSender.sendCloseMessage(message);
     }
 
-    public void sendNotification(List<Item> colItems, UUID checkout_uuid){
+    public void sendNotification(List<Item> colItems, String checkout_uuid){
         final CheckoutMessage message = CheckoutMessage.builder()
                 .action(CheckoutAction.CLOSE_SHOPPING_CART)
                 .checkout_uuid(checkout_uuid)

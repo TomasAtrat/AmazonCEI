@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 public class Checkout {
     private Long id;
-    private UUID uuid;
-    private UUID shopping_cart_uuid;
+    private String uuid;
+    private String shopping_cart_uuid;
     private Float total_cost;
 }

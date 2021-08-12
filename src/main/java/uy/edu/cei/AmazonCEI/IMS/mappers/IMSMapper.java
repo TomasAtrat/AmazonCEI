@@ -11,12 +11,12 @@ import java.util.UUID;
 
 @Mapper
 public interface IMSMapper {
-    @Select("SELECT id, uuid, stock, name FROM item")
+    @Select("SELECT id, uuid, stock, name, cost FROM item")
     List<Item> getElements();
 
     @Update("update item set stock= #{item.stock} where uuid= #{item.uuid}")
     void update(@Param("item") final Item item);
 
-    @Select("SELECT id, uuid, stock, name FROM item where uuid= #{uuid}")
-    Item getElementByUUID(@Param("uuid") final UUID uuid);
+    @Select("SELECT id, uuid, stock, name, cost FROM item where uuid= #{uuid}")
+    Item getElementByUUID(@Param("uuid") final String uuid);
 }

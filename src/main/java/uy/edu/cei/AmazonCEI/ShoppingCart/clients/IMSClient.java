@@ -15,7 +15,7 @@ public class IMSClient {
         this.restTemplate = new RestTemplate();
     }
 
-    public Item fetchItem(final UUID uuid) {
+    public Item fetchItem(final String uuid) {
         final String url = "http://localhost:8080/items/" + uuid;
         Item item = restTemplate.getForObject(url, Item.class);
         return item;
