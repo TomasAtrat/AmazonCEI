@@ -20,12 +20,13 @@ public class CheckoutService {
     private CheckoutMapper checkoutMapper;
     private CheckoutSender checkoutSender;
     private IMSClient imsClient;
-
+    private List<Item> colItems;
     @Autowired
-    public CheckoutService(CheckoutMapper checkoutMapper, CheckoutSender checkoutSender, IMSClient imsClient){
-        this.checkoutMapper= checkoutMapper;
-        this.checkoutSender= checkoutSender;
-        this.imsClient= imsClient;
+    public CheckoutService(CheckoutMapper checkoutMapper, CheckoutSender checkoutSender, IMSClient imsClient) {
+        this.checkoutMapper = checkoutMapper;
+        this.checkoutSender = checkoutSender;
+        this.imsClient = imsClient;
+        this.colItems= new ArrayList<>();
     }
 
     public void checkout(UUID shopping_cart_uuid){
@@ -34,6 +35,7 @@ public class CheckoutService {
         Checkout chout= this.add(shopping_cart_uuid, itemsInCart); //calcula precio total y envía mensajes de actualización de stock
         //Llamar a pasarela de datos
         closeShoppingCart(shopping_cart_uuid);
+        sendNotification(this.colItems, chout.getUuid());
     }
 
     public Checkout add(UUID shopping_cart_uuid, List<ItemInShoppingCart> itemsInCart){
@@ -62,6 +64,7 @@ public class CheckoutService {
         for (ItemInShoppingCart item: colItems) {
             final Item it= this.imsClient.fetchItem(item.getItem_uuid());
             total+= it.getCost()*item.getAmount();
+            this.colItems.add(it);
             this.updateStock(checkout, item);
         }
         return total;
