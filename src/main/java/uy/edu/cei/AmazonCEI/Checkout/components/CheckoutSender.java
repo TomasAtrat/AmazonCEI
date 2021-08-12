@@ -6,8 +6,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 import uy.edu.cei.AmazonCEI.common.messages.CheckoutMessage;
 
-import static uy.edu.cei.AmazonCEI.Configuration.ActiveMQConfig.CHECKOUT_QUEUE_FOR_NOTIFICATION;
-import static uy.edu.cei.AmazonCEI.Configuration.ActiveMQConfig.CHECKOUT_QUEUE_FOR_UPDATE;
+import static uy.edu.cei.AmazonCEI.Configuration.ActiveMQConfig.*;
 
 @Slf4j
 @Component
@@ -23,5 +22,10 @@ public class CheckoutSender {
     public void sendNotificationMessage(CheckoutMessage message) {
         log.info("message: {}", message);
         jmsTemplate.convertAndSend(CHECKOUT_QUEUE_FOR_NOTIFICATION, message);
+    }
+
+    public void sendCloseMessage(CheckoutMessage message){
+        log.info("message: {}", message);
+        jmsTemplate.convertAndSend(CHECKOUT_QUEUE_FOR_CLOSE, message);
     }
 }

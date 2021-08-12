@@ -32,8 +32,8 @@ public class CheckoutService {
         //Obtener lista de items en carrito a partir de la obtención del carrito con un cliente web
         List<ItemInShoppingCart> itemsInCart= new ArrayList<>();
         Checkout chout= this.add(shopping_cart_uuid, itemsInCart); //calcula precio total y envía mensajes de actualización de stock
-
-
+        //Llamar a pasarela de datos
+        closeShoppingCart(shopping_cart_uuid);
     }
 
     public Checkout add(UUID shopping_cart_uuid, List<ItemInShoppingCart> itemsInCart){
@@ -65,5 +65,24 @@ public class CheckoutService {
             this.updateStock(checkout, item);
         }
         return total;
+    }
+
+    public void closeShoppingCart(UUID shoppingCart_uuid){
+        final CheckoutMessage message = CheckoutMessage.builder()
+                .action(CheckoutAction.CLOSE_SHOPPING_CART)
+                .shoppingCartUUID(shoppingCart_uuid)
+                .build();
+
+        checkoutSender.sendCloseMessage(message);
+    }
+
+    public void sendNotification(List<Item> colItems, UUID checkout_uuid){
+        final CheckoutMessage message = CheckoutMessage.builder()
+                .action(CheckoutAction.CLOSE_SHOPPING_CART)
+                .checkout_uuid(checkout_uuid)
+                .colItems(colItems)
+                .build();
+
+        checkoutSender.sendNotificationMessage(message);
     }
 }

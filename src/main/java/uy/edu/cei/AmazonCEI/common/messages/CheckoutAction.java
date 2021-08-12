@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public enum CheckoutAction {
     SEND_NOTIFICATION("send-notification"),
-    UPDATE_STOCK("update-stock");
+    UPDATE_STOCK("update-stock"),
+    CLOSE_SHOPPING_CART("close-shopping-cart");
     private String value;
 }

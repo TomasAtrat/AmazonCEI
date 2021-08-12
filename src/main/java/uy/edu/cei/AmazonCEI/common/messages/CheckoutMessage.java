@@ -21,4 +21,5 @@ public class CheckoutMessage {
     private ShoppingCart shoppingCart;
     private UUID shoppingCartUUID;
     private ItemInShoppingCart itemInShoppingCart;
+    private List<Item> colItems;
 }
