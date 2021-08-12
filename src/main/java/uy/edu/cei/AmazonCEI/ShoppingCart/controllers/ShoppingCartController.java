@@ -2,9 +2,15 @@ package uy.edu.cei.AmazonCEI.ShoppingCart.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import uy.edu.cei.AmazonCEI.ShoppingCart.clients.IMSClient;
 import uy.edu.cei.AmazonCEI.ShoppingCart.mappers.ShoppingCartMapper;
 import uy.edu.cei.AmazonCEI.common.models.Item;
+import uy.edu.cei.AmazonCEI.common.models.ShoppingCart;
+
+import java.util.UUID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +33,18 @@ public class ShoppingCartController {
         return ColItem;
         }
 
+        @PostMapping("/{uuidUser}")
+    public void createMensagge(@PathVariable("uuidUser") UUID uuidUser)
+        {
+            UUID uuid = java.util.UUID.randomUUID();
+            ShoppingCart newCar= new ShoppingCart().builder()
+            .uuid(uuid)
+            .ActiveStatus(true)
+            .user_uuid(uuidUser)
+                    .build();
+
+            ShoppingCartMapper.create(newCar);
+        }
 
     }
 

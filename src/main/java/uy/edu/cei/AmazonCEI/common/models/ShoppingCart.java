@@ -1,9 +1,6 @@
 package uy.edu.cei.AmazonCEI.common.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -11,7 +8,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-
+@Builder
 public class ShoppingCart {
     private Long id;
     private UUID uuid;
