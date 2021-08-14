@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uy.edu.cei.AmazonCEI.common.models.Item;
 import uy.edu.cei.AmazonCEI.common.models.ItemInShoppingCart;
+import uy.edu.cei.AmazonCEI.common.models.Notification;
 import uy.edu.cei.AmazonCEI.common.models.ShoppingCart;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public class CheckoutMessage {
     private ShoppingCart shoppingCart;
     private String shoppingCartUUID;
     private ItemInShoppingCart itemInShoppingCart;
-    private List<Item> colItems;
+    private Notification notification;
 }

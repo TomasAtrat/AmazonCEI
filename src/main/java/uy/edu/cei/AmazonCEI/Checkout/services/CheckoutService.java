@@ -7,9 +7,7 @@ import uy.edu.cei.AmazonCEI.Checkout.components.CheckoutSender;
 import uy.edu.cei.AmazonCEI.Checkout.mappers.CheckoutMapper;
 import uy.edu.cei.AmazonCEI.common.messages.CheckoutAction;
 import uy.edu.cei.AmazonCEI.common.messages.CheckoutMessage;
-import uy.edu.cei.AmazonCEI.common.models.Checkout;
-import uy.edu.cei.AmazonCEI.common.models.Item;
-import uy.edu.cei.AmazonCEI.common.models.ItemInShoppingCart;
+import uy.edu.cei.AmazonCEI.common.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +18,13 @@ public class CheckoutService {
     private final CheckoutMapper checkoutMapper;
     private final CheckoutSender checkoutSender;
     private final IMSClientCH imsClientCH;
-    private List<Item> colItems;
+    private Notification notification;
     @Autowired
     public CheckoutService(CheckoutMapper checkoutMapper, CheckoutSender checkoutSender, IMSClientCH imsClientCH) {
         this.checkoutMapper = checkoutMapper;
         this.checkoutSender = checkoutSender;
         this.imsClientCH = imsClientCH;
-        this.colItems= new ArrayList<>();
+        this.notification= new Notification();
     }
 
     public void checkout(String shopping_cart_uuid){
@@ -35,7 +33,7 @@ public class CheckoutService {
         Checkout chout= this.add(shopping_cart_uuid, itemsInCart); //calcula precio total y envía mensajes de actualización de stock
         //Llamar a pasarela de datos
         closeShoppingCart(shopping_cart_uuid);
-        sendNotification(this.colItems, chout.getUuid());
+        sendNotification(chout.getUuid());
     }
 
     public Checkout add(String shopping_cart_uuid, List<ItemInShoppingCart> itemsInCart){
@@ -59,14 +57,22 @@ public class CheckoutService {
     }
 
     public float totalCost(Checkout checkout, List<ItemInShoppingCart> colItems){
-        //Calcula precio final y envía mensajes de actualización a la cola simultáneamente
         float total=0;
+        List<ItemToNotificate> notificationItems= new ArrayList<>();
         for (ItemInShoppingCart item: colItems) {
             final Item it= this.imsClientCH.fetchItem(item.getItem_uuid());
             total+= it.getCost()*item.getAmount();
-            this.colItems.add(it);
+            ItemToNotificate itemToNotificate= ItemToNotificate.builder()
+                    .item_uuid(it.getUuid())
+                    .amount(item.getAmount())
+                    .name(it.getName())
+                    .cost(it.getCost())
+                    .build();
+            notificationItems.add(itemToNotificate);
             this.updateStock(checkout, item);
         }
+        this.notification.setTotal_cost(total);
+        this.notification.setColItems(notificationItems);
         return total;
     }
 
@@ -79,11 +85,11 @@ public class CheckoutService {
         checkoutSender.sendCloseMessage(message);
     }
 
-    public void sendNotification(List<Item> colItems, String checkout_uuid){
+    public void sendNotification(String checkout_uuid){
         final CheckoutMessage message = CheckoutMessage.builder()
                 .action(CheckoutAction.CLOSE_SHOPPING_CART)
                 .checkout_uuid(checkout_uuid)
-                .colItems(colItems)
+                .notification(this.notification)
                 .build();
 
         checkoutSender.sendNotificationMessage(message);
