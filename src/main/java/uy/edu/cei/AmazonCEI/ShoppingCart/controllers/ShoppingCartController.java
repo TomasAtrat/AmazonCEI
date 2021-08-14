@@ -1,12 +1,12 @@
 package uy.edu.cei.AmazonCEI.ShoppingCart.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import uy.edu.cei.AmazonCEI.ShoppingCart.clients.IMSClient;
 import uy.edu.cei.AmazonCEI.ShoppingCart.mappers.ShoppingCartMapper;
+import uy.edu.cei.AmazonCEI.ShoppingCart.services.ShoppingCartServices;
+import uy.edu.cei.AmazonCEI.common.messages.Action;
+import uy.edu.cei.AmazonCEI.common.messages.ShoppingCartMessage;
 import uy.edu.cei.AmazonCEI.common.models.Item;
 import uy.edu.cei.AmazonCEI.common.models.ShoppingCart;
 
@@ -15,38 +15,35 @@ import java.util.UUID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+@RestController
+@RequestMapping("/ShoppingCart")
 @AllArgsConstructor
 public class ShoppingCartController {
-    private final ShoppingCartMapper ShoppingCartMapper;
-    private final IMSClient Client;
+    private final ShoppingCartServices ShoppingCartSerrvices;
 
-    @GetMapping("/{idCarrito}")
-    public List<Item>listShowItem() {
-        final List<String> ItemsUUID = this.ShoppingCartMapper.extracUUID();
-
-        final List<Item>ColItem = new ArrayList<>();
-
-        for(String uuid:ItemsUUID) {
-            final Item i = this.Client.fetchItem(uuid);
-            ColItem.add(i);
-        }
-        return ColItem;
-        }
-
-        @PostMapping("/{uuidUser}")
+    @PostMapping("/{uuidUser}")
     public void createMensagge(@PathVariable("uuidUser") String uuidUser)
-        {
-            String uuid = java.util.UUID.randomUUID().toString();
-            ShoppingCart newCar= new ShoppingCart().builder()
-            .uuid(uuid)
-            .ActiveStatus(true)
-            .user_uuid(uuidUser)
-                    .build();
+    {
+        this.ShoppingCartSerrvices.create(uuidUser);
+    }
 
-            ShoppingCartMapper.create(newCar);
+    @GetMapping("/{uuidCarrito}")
+    public List<Item>listShowItem(@PathVariable("uuidCarrito") String uuidCarrito) {
+       return this.ShoppingCartSerrvices.getListCart(uuidCarrito);
+    }
+
+    @PostMapping("/{uuidCart}")
+    public void createMesaggeAddItemCart(@PathVariable("uuidCart") String uuidCart, @RequestBody Item item)
+        {
+            this.ShoppingCartSerrvices.addItemCart(uuidCart,item );
         }
 
+    @DeleteMapping("/{uuidCart}")
+    public void deleteCartMessage(@PathVariable("uuidCart") String uuidItem)
+    {
+        this.ShoppingCartSerrvices.messageDeleteCart(uuidItem);
     }
+}
 
 
 

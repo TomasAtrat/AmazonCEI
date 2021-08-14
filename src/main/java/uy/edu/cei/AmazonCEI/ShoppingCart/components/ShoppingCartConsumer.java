@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import uy.edu.cei.AmazonCEI.ShoppingCart.mappers.ShoppingCartMapper;
 import uy.edu.cei.AmazonCEI.common.messages.Action;
 import uy.edu.cei.AmazonCEI.common.messages.ShoppingCartMessage;
@@ -29,7 +30,14 @@ public class ShoppingCartConsumer {
         if (payload.getAction() == Action.ADD_ITEM_TO_CART) {
             shoppingCatMapper.addItemToCart(userUUID, item);
         }
+        if(payload.getAction() == Action.REMOVE_ITEM_FROM_CART)
+        {
+            shoppingCatMapper.deleteItem(item.getUuid());
+        }
     }
+
+
+
 
 
 

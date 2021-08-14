@@ -20,4 +20,9 @@ public class ShoppingCartSender {
         log.info("message: {}", message);
         jmsTemplate.convertAndSend(SHOPPING_CART_QUEUE, message);
     }
+
+    public void sendMessageAdd(ShoppingCartMessage message) {
+        log.info("message: {}", message);
+        jmsTemplate.convertAndSend(SHOPPING_CART_QUEUE, message);
+    }
 }

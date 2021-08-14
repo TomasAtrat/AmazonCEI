@@ -10,20 +10,26 @@ import java.util.UUID;
 public interface ShoppingCartMapper {
 
 
-   @Select("Select Item_id from shopping_cart")
-   List<String> extracUUID();
+   @Select("  SELECT  id FROM shoppingCart where uuid = {uuidCarrito}")
+   int extracUUID(@Param("uuidCarrito") final String uuidCarrito);
 
-   @Insert("Insert into shopping_cart values(#{user},#{item.uuid},1)")
-   public void addItemToCart(@Param("user") final String userUUID,
-                             @Param("item") final Item item);
-
-
-   @Insert("INSERT INTO shopping_cart values (#{newCar.uuid},#{newCar.ActiveStatus}," +
-                                             "#{newCar.user_uuid})")
-   void create(ShoppingCart newCar);
+    @Select("SELECT  uuid_item FROM item_in_shoppingCart where id_shoppingCart = {idCart}")
+    List<String> searchUUIDItem(@Param("idCart") final int idCart);
 
 
-   // @Update()
+   @Insert("Insert into shoppingCart values(#{user},#{item.uuid},1)")
+    void addItemToCart(@Param("user") final String userUUID, @Param("item") final Item item);
+
+
+   @Insert("INSERT INTO shoppingCart values (#{newCar.uuid},#{newCar.ActiveStatus}, #{newCar.user_uuid})")
+    void create(@Param("newCar") final ShoppingCart cart);
+
+    @Delete("DELETE FROM item_in_shoppingCart where uuid_item = {userUUID}}")
+    void deleteItem(@Param("userUUID") final String userUUID);
+
+
+
+    // @Update()h bjtf
    // public void close(UUID)
 
    //@Delete()
