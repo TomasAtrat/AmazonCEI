@@ -11,10 +11,10 @@ import java.util.UUID;
 public interface ShoppingCartMapper {
 
 
-   @Select("  SELECT  id FROM shoppingCart where uuid = {uuidCarrito}")
-   int extracUUID(@Param("uuidCarrito") final String uuidCarrito);
+   @Select("SELECT  id FROM shoppingCart where uuid = #{uuidCarrito}")
+   Integer extracUUID(@Param("uuidCarrito") final String uuidCarrito);
 
-    @Select("SELECT  uuid_item FROM item_in_shoppingCart where id_shoppingCart = {idCart}")
+    @Select("SELECT  uuid_item FROM item_in_shoppingCart where id_shoppingCart = #{idCart}")
     List<String> searchUUIDItem(@Param("idCart") final int idCart);
 
     @Select("SELECT uuid_item, uuid_shoppingCart, amount FROM item_in_shoppingCart WHERE uuid_shoppingCart= #{cart-uuid}")
@@ -35,6 +35,9 @@ public interface ShoppingCartMapper {
     @Update("UPDATE item_in_shoppingCart set amount=#{it.amount} WHERE uuid_shoppingCart= #{shoppingCart_uuid}")
     void updateItem(@Param("shoppingCart_uuid") final String shoppingCart_uuid,
                     @Param("it") final ItemInShoppingCart it);
+
+    @Select("SELECT id, uuid, ActiveStatus, user_uuid from shoppingCart where id= SCOPE_IDENTITY()")
+    ShoppingCart lastShoppingCart();
 
 
     // @Update()h bjtf

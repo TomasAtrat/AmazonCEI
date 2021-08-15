@@ -22,6 +22,8 @@ import java.util.UUID;
 public class ShoppingCartController {
     private final ShoppingCartServices ShoppingCartSerrvices;
 
+    //Importante, los dos post entran en conflicto entre sí. Arreglar esto
+
     @PostMapping("/{uuidUser}")
     public void createMensagge(@PathVariable("uuidUser") String uuidUser)
     {

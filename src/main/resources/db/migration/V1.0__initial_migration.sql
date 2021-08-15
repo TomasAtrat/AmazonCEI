@@ -27,7 +27,7 @@ create table item_in_shoppingCart(
     uuid_item varchar(250) not null
 );
 
-create index IxID_shoppingCart on item_in_shoppingCart(id_shoppingCart);
+create index IxID_shoppingCart on item_in_shoppingCart(uuid_shoppingCart);
 
 create table checkout(
     id bigint not null identity(1,1),
