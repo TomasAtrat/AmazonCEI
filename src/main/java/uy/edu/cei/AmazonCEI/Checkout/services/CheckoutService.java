@@ -60,7 +60,7 @@ public class CheckoutService {
         float total=0;
         List<ItemToNotificate> notificationItems= new ArrayList<>();
         for (ItemInShoppingCart item: colItems) {
-            final Item it= this.imsClientCH.fetchItem(item.getItem_uuid());
+            final Item it= this.imsClientCH.fetchItem(item.getUuid_item());
             total+= it.getCost()*item.getAmount();
             ItemToNotificate itemToNotificate= ItemToNotificate.builder()
                     .item_uuid(it.getUuid())

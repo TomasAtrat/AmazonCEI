@@ -16,7 +16,7 @@ public class IMSClient {
     }
 
     public Item fetchItem(final String uuid) {
-        final String url = "http://localhost:8080/items/" + uuid;
+        final String url = "http://localhost:8080/ims/" + uuid;
         Item item = restTemplate.getForObject(url, Item.class);
         return item;
     }

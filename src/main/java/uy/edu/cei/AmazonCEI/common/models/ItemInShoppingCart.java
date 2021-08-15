@@ -5,15 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 
 public class ItemInShoppingCart {
-    private Long uuid_shoppingCart;
-    private String item_uuid;
+    private String uuid_shoppingCart;
+    private String uuid_item;
     private Integer amount;
 }

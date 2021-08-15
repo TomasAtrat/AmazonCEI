@@ -2,49 +2,34 @@ package uy.edu.cei.AmazonCEI.ShoppingCart.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import uy.edu.cei.AmazonCEI.ShoppingCart.clients.IMSClient;
-import uy.edu.cei.AmazonCEI.ShoppingCart.mappers.ShoppingCartMapper;
 import uy.edu.cei.AmazonCEI.ShoppingCart.services.ShoppingCartServices;
-import uy.edu.cei.AmazonCEI.common.messages.Action;
-import uy.edu.cei.AmazonCEI.common.messages.ShoppingCartMessage;
 import uy.edu.cei.AmazonCEI.common.models.Item;
 import uy.edu.cei.AmazonCEI.common.models.ItemInShoppingCart;
-import uy.edu.cei.AmazonCEI.common.models.ShoppingCart;
 
-import java.util.UUID;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 @RestController
 @RequestMapping("/ShoppingCart")
 @AllArgsConstructor
 public class ShoppingCartController {
-    private final ShoppingCartServices ShoppingCartSerrvices;
+    private final ShoppingCartServices shoppingCartServices;
 
-    //Importante, los dos post entran en conflicto entre sí. Arreglar esto
-
-    @PostMapping("/{uuidUser}")
-    public void createMensagge(@PathVariable("uuidUser") String uuidUser)
-    {
-        this.ShoppingCartSerrvices.create(uuidUser);
+    @GetMapping("/{uuid_user}")
+    public List<Item>listShowItem(@PathVariable("uuid_user") String uuidCarrito) {
+       return this.shoppingCartServices.getListCart(uuidCarrito);
     }
 
-    @GetMapping("/{uuidCarrito}")
-    public List<Item>listShowItem(@PathVariable("uuidCarrito") String uuidCarrito) {
-       return this.ShoppingCartSerrvices.getListCart(uuidCarrito);
-    }
-
-    @PostMapping("/{uuidCart}")
-    public void createMesaggeAddItemCart(@PathVariable("uuidCart") String uuidCart, @RequestBody ItemInShoppingCart item)
+    @PostMapping("/{uuid_item}")
+    public void createMesaggeAddItemCart(@PathVariable("uuid_item") String uuid_item,
+                                         @RequestBody final ItemInShoppingCart item)
         {
-            this.ShoppingCartSerrvices.addItemCart(uuidCart,item );
+            this.shoppingCartServices.addItemCart(uuid_item, item);
         }
 
-    @DeleteMapping("/{uuidCart}")
-    public void deleteCartMessage(@PathVariable("uuidCart") String uuidItem)
+    @DeleteMapping("/{uuidUser}")
+    public void deleteCartMessage(@PathVariable("uuidUser") final String uuidUser,
+                                  @RequestBody final Item item)
     {
-        this.ShoppingCartSerrvices.messageDeleteCart(uuidItem);
+        this.shoppingCartServices.messageDeleteCart(uuidUser, item);
     }
 }
 

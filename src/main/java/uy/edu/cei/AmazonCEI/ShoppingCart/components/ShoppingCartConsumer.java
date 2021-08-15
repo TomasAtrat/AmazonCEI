@@ -22,21 +22,12 @@ public class ShoppingCartConsumer {
     @JmsListener( destination = SHOPPING_CART_QUEUE )
     public void receiveMessage(@Payload ShoppingCartMessage payload) {
         log.info("shopping cart action: {}", payload);
-        Item item = payload.getItem();
-        String userUUID = payload.getUserUUID();
         if (payload.getAction() == Action.ADD_ITEM_TO_CART) {
             shoppingCartService.add(payload.getShoppingCart_uuid(), payload.getItemInShoppingCart());
         }
-        if(payload.getAction() == Action.REMOVE_ITEM_FROM_CART)
+        else if(payload.getAction() == Action.REMOVE_ITEM_FROM_CART)
         {
-            shoppingCartService.delete(payload.getShoppingCart_uuid(), payload.getItemUUID());
+            shoppingCartService.delete(payload.getShoppingCart_uuid(), payload.getItem());
         }
     }
-
-
-
-
-
-
-
 }

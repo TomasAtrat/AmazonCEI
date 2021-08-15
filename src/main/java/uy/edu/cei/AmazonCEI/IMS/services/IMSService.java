@@ -2,14 +2,11 @@ package uy.edu.cei.AmazonCEI.IMS.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import uy.edu.cei.AmazonCEI.IMS.mappers.IMSMapper;
 import uy.edu.cei.AmazonCEI.common.models.Item;
 import uy.edu.cei.AmazonCEI.common.models.ItemInShoppingCart;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class IMSService {
@@ -36,7 +33,7 @@ public class IMSService {
     }
 
     public void update(ItemInShoppingCart item) {
-        final Item currentItem= this.imsMapper.getElementByUUID(item.getItem_uuid());
+        final Item currentItem= this.imsMapper.getElementByUUID(item.getUuid_item());
         if(currentItem.getUuid() != null && item.getAmount()!=null)
             currentItem.setStock(currentItem.getStock()-item.getAmount());
         this.imsMapper.update(currentItem);
