@@ -22,7 +22,7 @@ create table shoppingCart(
 create unique index UK_shoppingCart_uuid on shoppingCart(uuid);
 
 create table item_in_shoppingCart(
-    id_shoppingCart bigint not null,
+    uuid_shoppingCart varchar(250) not null,
     amount int not null,
     uuid_item varchar(250) not null
 );

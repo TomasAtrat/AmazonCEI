@@ -8,6 +8,7 @@ import uy.edu.cei.AmazonCEI.ShoppingCart.services.ShoppingCartServices;
 import uy.edu.cei.AmazonCEI.common.messages.Action;
 import uy.edu.cei.AmazonCEI.common.messages.ShoppingCartMessage;
 import uy.edu.cei.AmazonCEI.common.models.Item;
+import uy.edu.cei.AmazonCEI.common.models.ItemInShoppingCart;
 import uy.edu.cei.AmazonCEI.common.models.ShoppingCart;
 
 import java.util.UUID;
@@ -33,7 +34,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/{uuidCart}")
-    public void createMesaggeAddItemCart(@PathVariable("uuidCart") String uuidCart, @RequestBody Item item)
+    public void createMesaggeAddItemCart(@PathVariable("uuidCart") String uuidCart, @RequestBody ItemInShoppingCart item)
         {
             this.ShoppingCartSerrvices.addItemCart(uuidCart,item );
         }

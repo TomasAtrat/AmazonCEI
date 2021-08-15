@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 
 public class ItemInShoppingCart {
-    private Long idShoppingCart;
+    private Long uuid_shoppingCart;
     private String item_uuid;
     private Integer amount;
 }

@@ -11,6 +11,7 @@ import uy.edu.cei.AmazonCEI.ShoppingCart.mappers.ShoppingCartMapper;
 import uy.edu.cei.AmazonCEI.common.messages.Action;
 import uy.edu.cei.AmazonCEI.common.messages.ShoppingCartMessage;
 import uy.edu.cei.AmazonCEI.common.models.Item;
+import uy.edu.cei.AmazonCEI.common.models.ItemInShoppingCart;
 import uy.edu.cei.AmazonCEI.common.models.ShoppingCart;
 
 import java.util.ArrayList;
@@ -22,14 +23,14 @@ public class ShoppingCartServices {
     private ShoppingCartMapper mapeo;
     private final IMSClient Client;
     private final ShoppingCartSender cartSender;
+    private static ShoppingCart shoppingCart;
+
     @Autowired
     public ShoppingCartServices(ShoppingCartMapper mapper, IMSClient client,ShoppingCartSender cartSender) {
         this.mapeo = mapper;
         this.Client = client;
         this.cartSender = cartSender;
     }
-
-
 
         public void create(String uuid) {
             String uuidCart = UUID.randomUUID().toString();
@@ -40,10 +41,10 @@ public class ShoppingCartServices {
             mapeo.create(cart);
         }
 
-
     public int  searchIdCart(String uuidCart) {
         return this.mapeo.extracUUID(uuidCart);
     }
+
     public List<Item> getListCart(String uuidCarrito) {
         int idCart = searchIdCart(uuidCarrito);
         final List<String> ItemsUUID = this.mapeo.searchUUIDItem(idCart);
@@ -67,10 +68,10 @@ public class ShoppingCartServices {
         mapeo.create(cart);
     }*/
 
-    public void addItemCart(String uuidCart, Item item) {
+    public void addItemCart(String uuidCart, ItemInShoppingCart item) {
         final ShoppingCartMessage message = new ShoppingCartMessage().builder()
         .action(Action.ADD_ITEM_TO_CART)
-                .item(item)
+                .itemInShoppingCart(item)
                 .shoppingCart_uuid(uuidCart)
                 .build();
         this.cartSender.sendMessageAdd(message);
@@ -78,13 +79,30 @@ public class ShoppingCartServices {
     }
 
     public void messageDeleteCart(String uuidItem) {
-        Item itemUuid = new Item();
-        itemUuid.setUuid(uuidItem);
+
         final ShoppingCartMessage message = new ShoppingCartMessage().builder()
                 .action(Action.REMOVE_ITEM_FROM_CART)
-                .item(itemUuid)
+                .shoppingCart_uuid(shoppingCart.getUuid())
+                .itemUUID(uuidItem)
                 .build();
         this.cartSender.sendMessageAdd(message);
+    }
+
+    public void add(String shoppingCart_uuid, ItemInShoppingCart item) {
+        //Primero verificar si está en el carrito --> SI --> Actualizar la cantidad
+                                                    //NO --> Añadir al carrito
+        List<ItemInShoppingCart> itemsInCart= this.mapeo.getItems(shoppingCart_uuid);
+        if(itemsInCart.contains(item.getItem_uuid())){
+            ItemInShoppingCart it= itemsInCart.stream().filter(i-> i.getItem_uuid()==item.getItem_uuid()).findFirst().orElse(null);
+            it.setAmount(it.getAmount()+item.getAmount());
+            this.mapeo.updateItem(shoppingCart_uuid, it);
+        }else{
+            this.mapeo.addItemToCart(shoppingCart_uuid, item);
+        }
+    }
+
+    public void delete(String shoppingCart_uuid, String item_uuid){
+        this.mapeo.deleteItem(shoppingCart_uuid, item_uuid);
     }
 }
 /*(@Param("user") final String userUUID,
