@@ -26,6 +26,6 @@ public class CheckoutSender {
 
     public void sendCloseMessage(CheckoutMessage message){
         log.info("message: {}", message);
-        jmsTemplate.convertAndSend(SHOPPING_CART_QUEUE, message);
+        jmsTemplate.convertAndSend(CHECKOUT_QUEUE_FOR_CLOSE, message);
     }
 }

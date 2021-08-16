@@ -30,12 +30,10 @@ public class CheckoutService {
     }
 
     public void checkout(String uuid_user){
-        //1. obtener el carrito a partir del usuario
-        //2. Obtener todos los items en el carrito a partir de su uuid
         ShoppingCart shoppingCart= this.shoppingCartClient.getCart(uuid_user);
         List<ItemInShoppingCart> itemsInCart= this.shoppingCartClient.getItemsInCart(shoppingCart.getUuid());
 
-        Checkout chout= this.add(shoppingCart.getUuid(), itemsInCart); //calcula precio total y envía mensajes de actualización de stock
+        Checkout chout= this.add(shoppingCart.getUuid(), itemsInCart);
         //Llamar a pasarela de datos
         closeShoppingCart(shoppingCart.getUuid());
         sendNotification(chout.getUuid());
@@ -93,7 +91,7 @@ public class CheckoutService {
 
     public void sendNotification(String checkout_uuid){
         final CheckoutMessage message = CheckoutMessage.builder()
-                .action(CheckoutAction.CLOSE_SHOPPING_CART)
+                .action(CheckoutAction.SEND_NOTIFICATION)
                 .checkout_uuid(checkout_uuid)
                 .notification(this.notification)
                 .build();

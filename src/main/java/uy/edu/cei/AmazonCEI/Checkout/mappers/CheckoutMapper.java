@@ -13,6 +13,6 @@ import java.util.List;
 @Mapper
 public interface CheckoutMapper {
 
-    @Insert("insert into checkout (uuid, shoppingCart_uuid, total_cost) values (#{chout.uuid}, #{chout.shopping_cart_uuid}, #{total_cost})")
+    @Insert("insert into checkout (uuid, shoppingCart_uuid, total_cost) values (#{chout.uuid}, #{chout.shopping_cart_uuid}, #{chout.total_cost})")
     void add(@Param("chout") final Checkout checkout);
 }

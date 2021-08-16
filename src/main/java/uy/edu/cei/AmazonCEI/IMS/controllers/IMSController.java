@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import uy.edu.cei.AmazonCEI.IMS.services.IMSService;
 import uy.edu.cei.AmazonCEI.common.models.Item;
 import uy.edu.cei.AmazonCEI.common.models.ItemInShoppingCart;
+import uy.edu.cei.AmazonCEI.common.models.ItemWrapper;
 
 import java.util.List;
 
@@ -23,8 +24,10 @@ public class IMSController {
     private final IMSService imsService;
 
     @GetMapping("/")
-    public List<Item> getElements(){
-        return this.imsService.getElements();
+    public ItemWrapper getElements(){
+        ItemWrapper wrapper= new ItemWrapper();
+        wrapper.setColItems(this.imsService.getElements());
+        return wrapper;
     }
 
     @GetMapping("/{uuid}")
