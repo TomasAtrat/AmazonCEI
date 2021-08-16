@@ -16,6 +16,7 @@ public class ActiveMQConfig {
     public static final String CHECKOUT_QUEUE_FOR_NOTIFICATION= "checkout-queue-for-notification";
     public static final String CHECKOUT_QUEUE_FOR_UPDATE= "checkout-queue-for-update";
     public static final String CHECKOUT_QUEUE_FOR_CLOSE= "checkout-queue-for-close";
+    public static final String LIST_USER_ITEM= "list_user_item";
 
     @Bean
     public JmsListenerContainerFactory<?> queueListenerFactory() {
