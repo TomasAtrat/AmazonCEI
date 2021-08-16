@@ -28,6 +28,8 @@ public class ShoppingCartConsumer {
         else if(payload.getAction() == Action.REMOVE_ITEM_FROM_CART)
         {
             shoppingCartService.delete(payload.getShoppingCart_uuid(), payload.getItem());
+        }else{
+            shoppingCartService.close(payload.getShoppingCart_uuid());
         }
     }
 }

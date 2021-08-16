@@ -40,4 +40,6 @@ public interface ShoppingCartMapper {
     void updateItem(@Param("shoppingCart_uuid") final String shoppingCart_uuid,
                     @Param("it") final ItemInShoppingCart it);
 
+    @Update("UPDATE shoppingCart set activeStatus= 0 where uuid= #{shoppingCart_uuid}")
+    void close(@Param("shoppingCart_uuid") String shoppingCart_uuid);
 }

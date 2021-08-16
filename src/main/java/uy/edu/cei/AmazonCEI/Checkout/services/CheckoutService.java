@@ -3,6 +3,7 @@ package uy.edu.cei.AmazonCEI.Checkout.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uy.edu.cei.AmazonCEI.Checkout.clients.IMSClientCH;
+import uy.edu.cei.AmazonCEI.Checkout.clients.ShoppingCartClient;
 import uy.edu.cei.AmazonCEI.Checkout.components.CheckoutSender;
 import uy.edu.cei.AmazonCEI.Checkout.mappers.CheckoutMapper;
 import uy.edu.cei.AmazonCEI.common.messages.CheckoutAction;
@@ -18,21 +19,25 @@ public class CheckoutService {
     private final CheckoutMapper checkoutMapper;
     private final CheckoutSender checkoutSender;
     private final IMSClientCH imsClientCH;
+    private final ShoppingCartClient shoppingCartClient;
     private Notification notification;
     @Autowired
-    public CheckoutService(CheckoutMapper checkoutMapper, CheckoutSender checkoutSender, IMSClientCH imsClientCH) {
+    public CheckoutService(CheckoutMapper checkoutMapper, CheckoutSender checkoutSender, IMSClientCH imsClientCH, ShoppingCartClient shoppingCartClient) {
         this.checkoutMapper = checkoutMapper;
         this.checkoutSender = checkoutSender;
         this.imsClientCH = imsClientCH;
-        this.notification= new Notification();
+        this.shoppingCartClient= shoppingCartClient;
     }
 
-    public void checkout(String shopping_cart_uuid){
-        //Obtener lista de items en carrito a partir de la obtención del carrito con un cliente web
-        List<ItemInShoppingCart> itemsInCart= new ArrayList<>();
-        Checkout chout= this.add(shopping_cart_uuid, itemsInCart); //calcula precio total y envía mensajes de actualización de stock
+    public void checkout(String uuid_user){
+        //1. obtener el carrito a partir del usuario
+        //2. Obtener todos los items en el carrito a partir de su uuid
+        ShoppingCart shoppingCart= this.shoppingCartClient.getCart(uuid_user);
+        List<ItemInShoppingCart> itemsInCart= this.shoppingCartClient.getItemsInCart(shoppingCart.getUuid());
+
+        Checkout chout= this.add(shoppingCart.getUuid(), itemsInCart); //calcula precio total y envía mensajes de actualización de stock
         //Llamar a pasarela de datos
-        closeShoppingCart(shopping_cart_uuid);
+        closeShoppingCart(shoppingCart.getUuid());
         sendNotification(chout.getUuid());
     }
 
@@ -71,6 +76,7 @@ public class CheckoutService {
             notificationItems.add(itemToNotificate);
             this.updateStock(checkout, item);
         }
+        this.notification= new Notification();
         this.notification.setTotal_cost(total);
         this.notification.setColItems(notificationItems);
         return total;

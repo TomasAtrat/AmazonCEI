@@ -98,4 +98,16 @@ public class ShoppingCartServices {
     public void delete(String shoppingCart_uuid, Item item){
         this.mapeo.deleteItem(shoppingCart_uuid, item);
     }
+
+    public ShoppingCart getElementByUserUUID(String uuid_user) {
+        return this.mapeo.getCartByUserUUID(uuid_user);
+    }
+
+    public List<ItemInShoppingCart> getItemsInCart(String uuid_cart) {
+        return this.mapeo.getItems(uuid_cart);
+    }
+
+    public void close(String shoppingCart_uuid) {
+        this.mapeo.close(shoppingCart_uuid);
+    }
 }
